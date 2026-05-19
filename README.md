@@ -2,10 +2,6 @@
 
 > **A full-stack database management system and decision-support application for retail demand forecasting, inventory risk detection, and markdown ROI analysis.**
 
-**Course:** DS-604 Introduction to Data Management  
-**Team:** THE INSIGHT EXPRESS  
-**Members:** Sanjana (202518002) · Srishti (202518003) · Nikita (202518038)
-
 ---
 
 ## The Problem This Solves
