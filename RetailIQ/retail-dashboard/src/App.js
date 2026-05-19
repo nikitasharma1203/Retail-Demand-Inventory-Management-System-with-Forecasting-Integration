@@ -2,8 +2,8 @@ import React, { useState, useCallback } from 'react';
 import Papa from 'papaparse';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart,
-  Scatter, Legend, ReferenceLine,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  Legend, ReferenceLine,
 } from 'recharts';
 import { runAllAnalytics } from './analytics';
 import { generateDemoData } from './demoData';
