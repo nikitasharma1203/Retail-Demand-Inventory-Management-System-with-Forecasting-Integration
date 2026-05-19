@@ -3,8 +3,7 @@
 > **A generalised, deployable analytics dashboard for retail companies.**  
 > Upload your dataset in the standard schema, get instant analytics — no database, no backend, no setup.
 
-https://agent-6a0c3d35871da200776--retaildemanmanagement.netlify.app/
-
+https://retaildemanmanagement.netlify.app/
 ---
 
 ## 📌 What Is This?
