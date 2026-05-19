@@ -6,6 +6,7 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start)
 
+=======
 ---
 
 ## 📌 What Is This?
@@ -276,3 +277,5 @@ Retail Demand & Inventory Management System with Forecasting Integration
 ## 📄 License
 
 MIT — Free to use, deploy, and adapt for any retail analytics use case.
+=======
+
