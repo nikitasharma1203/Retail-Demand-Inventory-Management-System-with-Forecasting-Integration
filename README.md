@@ -3,10 +3,8 @@
 > **A generalised, deployable analytics dashboard for retail companies.**  
 > Upload your dataset in the standard schema, get instant analytics — no database, no backend, no setup.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start)
+https://agent-6a0c3d35871da200776--retaildemanmanagement.netlify.app/
 
-=======
 ---
 
 ## 📌 What Is This?
