@@ -1,9 +1,30 @@
-# 🛒 Retail Demand & Inventory Management System with Forecasting Integration
+# Retail Intelligence & Forecasting Platform
 
-> **Enterprise-grade PostgreSQL data warehouse + demand forecasting + interactive Streamlit dashboard.**  
-> Built as an MSc Advanced DBMS project — demonstrates triggers, stored procedures, views, RBAC, window functions, and multi-model forecasting on 421,570 real retail sales records.
+## Live Applications
+
+- Streamlit Dashboard
+![Static Badge](https://img.shields.io/badge/Website-Live-green?link=https%3A%2F%2Fretaildemanmanagement.netlify.app%2F)
+![Static Badge](https://img.shields.io/badge/Streamlit-Live-brightgreen?link=https%3A%2F%2Fretail-demand-inventory-management-system-with-forecasting-int.streamlit.app%2F)
+
+
+AI-powered retail analytics platform combining:
+
+- Demand Forecasting
+- Inventory Optimization
+- PostgreSQL Data Warehousing
+- Executive BI Dashboards
+- Trigger-Based Monitoring
+- Economic Impact Analytics
+- Store Clustering
+- EOQ Optimization
+
+Built using:
+PostgreSQL • Python • Streamlit • SARIMA • Prophet • Plotly
 
 ---
+![Dashboard](dashboard/dashboard1.png)
+
+
 
 ## 📌 Project Overview
 
