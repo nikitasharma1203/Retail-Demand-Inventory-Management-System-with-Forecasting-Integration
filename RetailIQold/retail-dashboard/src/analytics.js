@@ -64,26 +64,6 @@ function computeKPIs(sales, stores, products, inventory) {
   const avgNonHoliday = nonHolidaySales / (sales.filter(r => String(r.IsHoliday) !== 'TRUE' && r.IsHoliday !== true && r.IsHoliday !== '1').length || 1);
   const holidayLift = avgNonHoliday ? ((avgHoliday - avgNonHoliday) / avgNonHoliday * 100) : 0;
 
-  // Extra KPIs used by dashboard
-  const reorderCount = inventory.filter(r => {
-    const qty     = safe(r.Stock_Qty ?? r.Units_In_Stock ?? r.Quantity ?? r.Current_Stock);
-    const reorder = safe(r.Reorder_Level ?? r.Reorder_Point ?? r.Min_Stock ?? 10);
-    return qty <= reorder && qty > 0;
-  }).length;
-
-  // Revenue at risk: estimate avg weekly sales × number of stockout locations
-  const avgWeekly = sales.length ? totalSales / sales.length : 0;
-  const revenueAtRisk = Math.round(stockoutCount * avgWeekly * 0.5);
-
-  // Inventory turnover: COGS proxy / avg inventory — simplified
-  const avgStock = totalInventory > 0 ? totalInventory : 1;
-  const inventoryTurnover = totalInventory > 0
-    ? parseFloat(((totalSales / avgStock) * 0.6).toFixed(1))
-    : 4.3;
-
-  // Simulated forecast accuracy (would come from ML in production)
-  const forecastAccuracy = parseFloat((88 + Math.min(8, storeCount * 0.3)).toFixed(1));
-
   return {
     totalSales: totalSales.toFixed(0),
     avgWeeklySales: avgSales.toFixed(0),
@@ -92,10 +72,6 @@ function computeKPIs(sales, stores, products, inventory) {
     skuCount,
     totalInventory: totalInventory.toFixed(0),
     stockoutCount,
-    reorderCount,
-    revenueAtRisk,
-    inventoryTurnover,
-    forecastAccuracy,
     holidayLift: holidayLift.toFixed(1),
     recordCount: sales.length,
   };
@@ -342,12 +318,7 @@ function monthlyRevenue(sales) {
     byMonth[key] += safe(r.Weekly_Sales);
   });
   return Object.entries(byMonth)
-    .map(([month, sales]) => ({
-      month,
-      sales: parseFloat(sales.toFixed(0)),
-      upper: parseFloat((sales * 1.08).toFixed(0)),
-      lower: parseFloat((sales * 0.92).toFixed(0)),
-    }))
+    .map(([month, sales]) => ({ month, sales: parseFloat(sales.toFixed(0)) }))
     .sort((a, b) => a.month.localeCompare(b.month))
     .slice(-18);
 }
