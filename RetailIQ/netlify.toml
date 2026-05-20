@@ -1,9 +1,9 @@
 [build]
-  base = "RetailIQ/retail-dashboard"
-  publish = "RetailIQ/retail-dashboard/build"
+  base    = "RetailIQ/retail-dashboard"
   command = "npm install --legacy-peer-deps && npm run build"
+  publish = "build"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from   = "/*"
+  to     = "/index.html"
   status = 200
