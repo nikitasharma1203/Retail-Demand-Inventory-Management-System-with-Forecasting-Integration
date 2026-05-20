@@ -1,19 +1,9 @@
 # Retail Intelligence & Forecasting Platform
 
 ### Enterprise Retail Analytics System
-
-[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)](https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/) [![Web App](https://img.shields.io/badge/WebApp-Live-blue?logo=googlechrome)](https://retaildemanmanagement.netlify.app/) [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/nikitasharma1203/Retail-Demand-Inventory-Management-System-with-Forecasting-Integration) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-DataWarehouse-blue?logo=postgresql) ![Python](https://img.shields.io/badge/Python-3.11-yellow?logo=python) ![Forecasting](https://img.shields.io/badge/Forecasting-SARIMA%20%7C%20Prophet-green)
-
----
-
 ## 🚀 Live Platforms
 
-| Platform | Link |
-|---|---|
-| 📊 Streamlit Enterprise Dashboard | https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/ |
-| 🌐 React Analytics Web App | https://retaildemanmanagement.netlify.app/ |
-| 💻 GitHub Repository | https://github.com/nikitasharma1203/Retail-Demand-Inventory-Management-System-with-Forecasting-Integration |
-
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)](https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/) [![Web App](https://img.shields.io/badge/WebApp-Live-blue?logo=googlechrome)](https://retaildemanmanagement.netlify.app/)  
 ---
 
 ## 🎯 Enterprise Features
@@ -27,9 +17,9 @@
 ✅ Real-Time Executive Dashboard  
 ✅ Query Optimization with Indexing  
 
-
+---
 ![Dashboard](dashboard/dashboard1.png)
-
+---
 
 ## 📌 Project Overview
 
