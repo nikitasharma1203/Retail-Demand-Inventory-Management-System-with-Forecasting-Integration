@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import Papa from 'papaparse';
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
-  ReferenceLine, RadarChart, Radar, PolarGrid, PolarAngleAxis, ScatterChart, Scatter,
+  ReferenceLine, RadarChart, Radar, PolarGrid, PolarAngleAxis,
 } from 'recharts';
 import { runAllAnalytics } from './analytics';
 import { generateDemoData } from './demoData';
