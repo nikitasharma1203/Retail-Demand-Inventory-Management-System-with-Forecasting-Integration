@@ -1,29 +1,21 @@
 # Retail Intelligence & Forecasting Platform
 
-## Live Applications
+### Enterprise Retail Analytics System
 
-- Streamlit Dashboard
-![Static Badge](https://img.shields.io/badge/Website-Live-green?link=https%3A%2F%2Fretaildemanmanagement.netlify.app%2F)
-![Static Badge](https://img.shields.io/badge/Streamlit-Live-brightgreen?link=https%3A%2F%2Fretail-demand-inventory-management-system-with-forecasting-int.streamlit.app%2F)
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)](https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/)
 
+[![Web App](https://img.shields.io/badge/WebApp-Live-blue?logo=googlechrome)](https://retaildemanmanagement.netlify.app/)
 
-AI-powered retail analytics platform combining:
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/nikitasharma1203/Retail-Demand-Inventory-Management-System-with-Forecasting-Integration)
 
-- Demand Forecasting
-- Inventory Optimization
-- PostgreSQL Data Warehousing
-- Executive BI Dashboards
-- Trigger-Based Monitoring
-- Economic Impact Analytics
-- Store Clustering
-- EOQ Optimization
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-DataWarehouse-blue?logo=postgresql)
 
-Built using:
-PostgreSQL • Python • Streamlit • SARIMA • Prophet • Plotly
+![Python](https://img.shields.io/badge/Python-3.11-yellow?logo=python)
+
+![Forecasting](https://img.shields.io/badge/Forecasting-SARIMA%20%7C%20Prophet-green)
 
 ---
 ![Dashboard](dashboard/dashboard1.png)
-
 
 
 ## 📌 Project Overview
@@ -83,8 +75,6 @@ Streamlit Interactive Dashboard
 │   ├── triggers.sql               # 3 trigger definitions
 │   └── procedures.sql             # 3 stored procedures + RBAC
 │
-├── ppt/                           # Project presentation slides
-├── ER_Diagram.svg                 # Entity-Relationship diagram
 ├── netlify.toml                   # Netlify deployment config
 └── README.md
 ```
@@ -126,20 +116,10 @@ store ──< sales >── department
 | `vw_top_departments_by_revenue` | Ranked department revenue with RANK() OVER | Q9, sp_monthly_demand_report |
 | `vw_store_weekly_summary` | Aggregated weekly time-series per store | SARIMA/XGBoost forecasting |
 
-```sql
--- Example: Holiday Uplift View
-CREATE OR REPLACE VIEW retail.vw_holiday_sales_uplift AS
-SELECT st.store_type,
-       ROUND(AVG(CASE WHEN s.is_holiday THEN s.weekly_sales END)::numeric,2) AS holiday_avg,
-       ROUND(AVG(CASE WHEN NOT s.is_holiday THEN s.weekly_sales END)::numeric,2) AS regular_avg,
-       ROUND(
-         (AVG(CASE WHEN s.is_holiday THEN s.weekly_sales END) -
-          AVG(CASE WHEN NOT s.is_holiday THEN s.weekly_sales END)) /
-          NULLIF(AVG(CASE WHEN NOT s.is_holiday THEN s.weekly_sales END),0)*100
-       ,2) AS uplift_pct
-FROM retail.sales s JOIN retail.store st ON s.store_id=st.store_id
-GROUP BY st.store_type;
-```
+
+- Executive BI summaries
+- Markdown ROI analytics
+- Weekly store summaries
 
 ### 🔁 3 Triggers
 
@@ -149,6 +129,10 @@ GROUP BY st.store_type;
 | `trg_sales_spike` | AFTER INSERT on `sales` | Log to `anomaly_log` if sales > 2× historical avg | 9 holiday outliers detected (Dept 20, Dec 2010) |
 | `trg_markdown_anomaly` | AFTER INSERT on `features` | Alert when high markdown spend but below-avg sales | Store 11 flagged for poor markdown efficiency |
 
+- Sales spike detection
+- Markdown anomaly detection
+- Negative sales prevention
+
 ### 📋 3 Stored Procedures
 
 | Procedure | Inputs | Output |
@@ -157,18 +141,9 @@ GROUP BY st.store_type;
 | `sp_holiday_uplift()` | — | Uplift % per store type (A: +30.05%, B: +31.86%, C: +33.57%) |
 | `sp_reorder_check(store_id)` | Store ID | EOQ, reorder point, current status alert |
 
-### 🔑 7 Query Optimization Indexes
+- Automated monthly demand reports
+- Holiday uplift analysis
 
-```sql
-CREATE INDEX idx_sales_store_id      ON retail.sales(store_id);
-CREATE INDEX idx_sales_dept_id       ON retail.sales(dept_id);
-CREATE INDEX idx_sales_date          ON retail.sales(sale_date);
-CREATE INDEX idx_features_store_date ON retail.features(store_id, feature_date);  -- most used
-CREATE INDEX idx_sales_store_date    ON retail.sales(store_id, sale_date);
-CREATE INDEX idx_store_type          ON retail.store(store_type);
-CREATE INDEX idx_dept_id             ON retail.department(dept_id);
--- Result: analytics runtime < 120ms per query
-```
 
 ### 🔐 Role-Based Access Control (RBAC)
 
@@ -178,7 +153,9 @@ CREATE ROLE analyst_role;  -- SELECT on all views & tables
 CREATE ROLE manager_role;  -- SELECT + UPDATE on retail.features
 CREATE ROLE admin_role;    -- Full DDL: CREATE, DROP, TRUNCATE, GRANT
 ```
-
+- Analyst access
+- Manager permissions
+- Admin controls
 ---
 
 ## 📊 10 Analytical SQL Queries
@@ -230,6 +207,24 @@ Reorder Point = (avg_weekly_sales × lead_time) + safety_stock
 
 Status: ⚠ LOW STOCK ALERT (current: 15,000 < reorder: 3,270,272)
 ```
+## Dashboard Modules
+
+### Executive Overview
+![Dashboard](dashboard/overview.png)
+
+
+### Forecasting Analytics
+![Dashboard](dashboard/forecast1.png)
+![Dashboard](dashboard/forecast2.png)
+
+
+### Inventory Intelligence
+![Dashboard](dashboard/inventory.png)
+
+
+### Scenario Sim
+![Dashboard](dashboard/scenario.png)
+
 
 ---
 
@@ -250,88 +245,6 @@ Status: ⚠ LOW STOCK ALERT (current: 15,000 < reorder: 3,270,272)
 
 ---
 
-## 🚀 Setup & Run
-
-### Prerequisites
-```bash
-Python 3.9+
-PostgreSQL 14+
-pip install streamlit pandas plotly sqlalchemy psycopg2-binary
-pip install xgboost scikit-learn statsmodels prophet  # for forecasting
-```
-
-### 1 — Database Setup
-
-```bash
-# Create database
-psql -U postgres -c "CREATE DATABASE retail_store;"
-
-# Run schema
-psql -U postgres -d retail_store -f sql/schema.sql
-
-# Run views, triggers, procedures
-psql -U postgres -d retail_store -f sql/views.sql
-psql -U postgres -d retail_store -f sql/triggers.sql
-psql -U postgres -d retail_store -f sql/procedures.sql
-```
-
-### 2 — Load Data (Jupyter)
-
-```bash
-# Update credentials in final.ipynb (Step 2):
-USER     = "postgres"
-PASSWORD = "your_password"
-DATABASE = "retail_store"
-
-# Run all cells in notebooks/final.ipynb
-jupyter notebook notebooks/final.ipynb
-```
-
-### 3 — Run Streamlit Dashboard
-
-```bash
-cd RetailIQ
-streamlit run app.py
-# Opens at http://localhost:8501
-```
-
-### 4 — Run React Web Dashboard (Optional)
-
-```bash
-cd RetailIQ/retail-dashboard
-npm install
-npm start         # dev server at http://localhost:3000
-npm run build     # production build
-```
-
----
-
-## 🌐 Deployment
-
-### Streamlit Cloud
-
-1. Push repo to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Set **Main file path:** `RetailIQ/app.py`
-4. Add secrets in Streamlit Cloud settings for DB credentials
-
-### React Dashboard on Netlify
-
-```toml
-# netlify.toml (repo root)
-[build]
-  base    = "RetailIQ/retail-dashboard"
-  command = "npm install --legacy-peer-deps && npm run build"
-  publish = "build"
-
-[[redirects]]
-  from = "/*"
-  to   = "/index.html"
-  status = 200
-```
-
----
-
 ## 🧰 Tech Stack
 
 | Layer | Technology |
@@ -345,17 +258,5 @@ npm run build     # production build
 | Dashboard (Python) | Streamlit |
 | Dashboard (Web) | React 18, Recharts, PapaParse |
 | Deployment | Netlify (React) / Streamlit Cloud (Python) |
-
----
-
-## 📋 Dataset
-
-**Source:** [Walmart Store Sales Forecasting — Kaggle](https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting)
-
-| File | Rows | Columns | Description |
-|---|---|---|---|
-| `stores.csv` | 45 | store, type, size | Store metadata |
-| `sales.csv` | 421,570 | store, dept, date, weekly_sales, is_holiday | Weekly sales |
-| `features.csv` | 8,190 | store, date, temp, fuel, markdown1–5, CPI, unemployment | External drivers |
 
 ---
