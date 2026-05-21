@@ -3,7 +3,7 @@
 ### Enterprise Retail Analytics System
 ## 🚀 Live Platforms
 
-[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)](https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/) [![Web App](https://img.shields.io/badge/WebApp-Live-blue?logo=googlechrome)](https://retaildemanmanagement.netlify.app/)  
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)](https://retail-demand-inventory-management-system-with-forecasting-int.streamlit.app/) [![Web App](https://img.shields.io/badge/WebApp-Live-blue?logo=googlechrome)](https://retailiqplatform.netlify.app/)  
 ---
 
 ## 🎯 Enterprise Features
