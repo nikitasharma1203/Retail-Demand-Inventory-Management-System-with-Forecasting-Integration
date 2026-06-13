@@ -1,7 +1,6 @@
 -- ============================================================
 -- RETAIL STORE SALES FORECASTING DBMS
 -- schema.sql — DDL: Table Creation with Constraints
--- DS-604 | THE INSIGHT EXPRESS
 -- ============================================================
 
 -- Create schema
