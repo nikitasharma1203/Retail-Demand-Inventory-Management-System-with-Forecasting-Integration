@@ -44,9 +44,9 @@ def sales_df():
 
 class TestEOQ:
     def test_retailiq_example(self):
-        # Your notebook: D=1M, S=100, H=0.826 → ~49,251
+        # sqrt(2 * 1_000_000 * 100 / 0.826) = 15,560.55
         result = compute_eoq(1_000_000, 100, 0.826)
-        assert 48_000 < result < 51_000
+        assert 15_000 < result < 16_000
 
     def test_known_value(self):
         assert abs(compute_eoq(1000, 50, 2) - 223.6) < 0.5
