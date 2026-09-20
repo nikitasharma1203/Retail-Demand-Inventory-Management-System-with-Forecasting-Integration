@@ -1,7 +1,3 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# RetailIQ — Build Check (v3 — correct React app folder: retail-dashboard/)
-# ─────────────────────────────────────────────────────────────────────────────
-
 name: Build Check — React Web App
 
 on:
@@ -11,7 +7,6 @@ on:
     branches: [main]
 
 jobs:
-
   build:
     name: npm install + npm run build
     runs-on: ubuntu-latest
@@ -23,14 +18,26 @@ jobs:
         with:
           node-version: "20"
 
-      # React app lives in retail-dashboard/ (confirmed from repo structure)
+      # Dynamically find where package.json lives — works regardless of folder name
+      - name: Find React app folder
+        id: find
+        run: |
+          PKG=$(find . -name "package.json" \
+            -not -path "*/node_modules/*" \
+            -not -path "*/.github/*" \
+            | head -1)
+          DIR=$(dirname "$PKG")
+          echo "dir=$DIR" >> $GITHUB_OUTPUT
+          echo "Found React app at: $DIR"
+          ls "$DIR"
+
       - name: Install dependencies
-        working-directory: retail-dashboard
         run: npm install
+        working-directory: ${{ steps.find.outputs.dir }}
 
       - name: Build React app
-        working-directory: retail-dashboard
         run: npm run build
+        working-directory: ${{ steps.find.outputs.dir }}
         env:
           CI: false
 
@@ -38,5 +45,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: react-build-${{ github.sha }}
-          path: retail-dashboard/build/
+          path: ${{ steps.find.outputs.dir }}/build/
           retention-days: 7
