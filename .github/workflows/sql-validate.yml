@@ -1,0 +1,89 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# RetailIQ — SQL Schema Validation (fixed v2)
+# Spins up Postgres 14, loads your sql/ files in order
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: SQL Schema Validation (PostgreSQL)
+
+on:
+  push:
+    paths: ["sql/**"]
+  pull_request:
+    paths: ["sql/**"]
+  # Also allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  validate-sql:
+    name: Load SQL into Postgres & Validate
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: retailiq
+          POSTGRES_PASSWORD: retailiq_pass
+          POSTGRES_DB: retailiq_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      PGPASSWORD: retailiq_pass
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for Postgres
+        run: |
+          until pg_isready -h localhost -U retailiq; do
+            sleep 2
+          done
+
+      - name: Create retail schema
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test \
+            -c "CREATE SCHEMA IF NOT EXISTS retail;"
+
+      - name: Load schema.sql
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test \
+            -f sql/schema.sql
+
+      - name: Load views.sql
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test \
+            -f sql/views.sql
+
+      - name: Load triggers.sql
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test \
+            -f sql/triggers.sql
+
+      - name: Load procedures.sql
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test \
+            -f sql/procedures.sql
+
+      - name: Smoke check — list tables
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test -c "
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = 'retail'
+            ORDER BY table_name;
+          "
+
+      - name: Smoke check — list views
+        run: |
+          psql -h localhost -U retailiq -d retailiq_test -c "
+            SELECT table_name
+            FROM information_schema.views
+            WHERE table_schema = 'retail';
+          "
