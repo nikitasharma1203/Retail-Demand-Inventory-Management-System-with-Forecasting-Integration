@@ -1,6 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# RetailIQ — Build Check (fixed v2)
-# Finds package.json wherever it lives under RetailIQ/
+# RetailIQ — Build Check (v3 — correct React app folder: retail-dashboard/)
 # ─────────────────────────────────────────────────────────────────────────────
 
 name: Build Check — React Web App
@@ -24,26 +23,13 @@ jobs:
         with:
           node-version: "20"
 
-      # Find where package.json actually lives inside the repo
-      - name: Find package.json location
-        id: find_pkg
-        run: |
-          PKG=$(find . -name "package.json" \
-                  -not -path "*/node_modules/*" \
-                  -not -path "*/.github/*" \
-                  | head -1)
-          DIR=$(dirname "$PKG")
-          echo "app_dir=$DIR" >> $GITHUB_OUTPUT
-          echo "Found package.json at: $PKG (dir: $DIR)"
-
+      # React app lives in retail-dashboard/ (confirmed from repo structure)
       - name: Install dependencies
-        working-directory: ${{ steps.find_pkg.outputs.app_dir }}
-        run: |
-          # Use npm install (not npm ci) because package-lock.json may be absent
-          npm install
+        working-directory: retail-dashboard
+        run: npm install
 
       - name: Build React app
-        working-directory: ${{ steps.find_pkg.outputs.app_dir }}
+        working-directory: retail-dashboard
         run: npm run build
         env:
           CI: false
@@ -52,5 +38,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: react-build-${{ github.sha }}
-          path: ${{ steps.find_pkg.outputs.app_dir }}/build/
+          path: retail-dashboard/build/
           retention-days: 7
