@@ -77,6 +77,7 @@ jobs:
             statsmodels==0.14.2 \
             xgboost==2.0.3 \
             plotly==5.22.0 \
+            sqlalchemy==2.0.30 \
             nbconvert==7.16.4 \
             ipykernel==6.29.4
           python -m ipykernel install --user --name=python3
